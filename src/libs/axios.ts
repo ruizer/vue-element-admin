@@ -5,7 +5,6 @@ import axios, {
   AxiosInstance,
 } from 'axios';
 import Vue from 'vue';
-import router from '@/router';
 import { CommonResponse } from '@/api/response';
 const vm = new Vue();
 
@@ -34,20 +33,13 @@ class HttpRequest {
     // 响应拦截
     instance.interceptors.response.use(
       (res: AxiosResponse) => {
-        const { data } = res;
-        const NO_LOGIN = -1;
-        const SIMPLE_PWD = -4;
-        const SUCCESS = 1;
+        const data: CommonResponse = res.data;
+        const SUCCESS = 200;
 
-        if (data.Code === NO_LOGIN) {
-          router.push('/login');
-        } else if (data.Code === SIMPLE_PWD) {
-          router.push('/userinfo');
-        }
-        if (data.Code !== SUCCESS) {
+        if (data.code !== SUCCESS) {
           const h = vm.$createElement;
-          if (data.Msg) {
-            const arr: any[] = data.Msg.split('\n').map((item: string) =>
+          if (data.msg) {
+            const arr: any[] = data.msg.split('\n').map((item: string) =>
               h('div', {}, item),
             );
             const node = h('div', {}, arr);
