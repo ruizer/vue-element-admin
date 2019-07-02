@@ -24,6 +24,7 @@ router.beforeEach((to, from, next) => {
   // } catch {
   //   next();
   // }
+  next();
 });
 
 router.afterEach((to, from) => {
